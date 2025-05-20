@@ -2,7 +2,9 @@
 //
 
 #include <iostream>
-
+#include "TMem.h"
+TMem TNode::memory;
+TNode::InitMem(200);
 int main()
 {
     std::cout << "Hello World!\n";
