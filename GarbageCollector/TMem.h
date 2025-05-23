@@ -1,5 +1,12 @@
 #pragma once
 #include <stack>
+#include <iostream>
+enum Status
+{
+	garbage,
+	node,
+	empty
+};
 using namespace std;
 typedef int TKey;
 
@@ -8,12 +15,12 @@ class TTree {
 	TNode* pRoot, * pCurr, * pPrev;
 	stack<TNode*> st;
 	int level;
-	void printRec(TNode* p);
+	void PrintRec(ostream& os, TNode* p);
 public:
-	void printTree();
-	bool Find(TKey k);
-	void Insert(TKey k);
-	void Delete(TKey k);
+	void PrintTree(ostream& os);
+	bool Find(TKey key);
+	void Insert(TKey key);
+	void Delete(TKey key);
 	void Reset();
 	void GoNext();
 	bool IsEnd() { return st.empty(); }
@@ -27,13 +34,13 @@ struct TNode
 {
 	TKey key;
 	TNode* pLeft, * pRight;
-	bool isGarbage;
+	Status status;
 	static TMem memory;
 	static void InitMem(int size = 100);
 	static void ClearMem(TTree* t);
-	static void PrintFree();
+	static void PrintFree(ostream& os);
 public:
-	TNode(TKey k) : key(k), pLeft(nullptr), pRight(nullptr), isGarbage(true) {}
+	TNode(TKey k) : key(k), pLeft(nullptr), pRight(nullptr), status(Status::empty) {}
 	void* operator new(size_t s);
 	void operator delete(void* p);
 };
