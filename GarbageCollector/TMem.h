@@ -18,6 +18,7 @@ class TTree {
 	int level;
 	void PrintRec(ostream& os, TNode* p);
 public:
+	TTree() : pRoot(nullptr), pCurr(nullptr), pPrev(nullptr), st() {}
 	void PrintTree(ostream& os);
 	bool Find(TKey key);
 	void Insert(TKey key);
@@ -42,8 +43,8 @@ struct TNode
 	static void PrintGarbage(ostream& os);
 	static void PrintEmpty(ostream& os);
 	static void PrintNode(ostream& os);
-	static TNode Find(ostream& os);
-	static void Clear(ostream& os);
+	static TNode* Find(TKey key);
+	static void Clear();
 	static string CreatePrint();
 public:
 	TNode(TKey k) : key(k), pLeft(nullptr), pRight(nullptr), status(Status::empty) {}

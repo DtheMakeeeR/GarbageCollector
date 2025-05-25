@@ -66,7 +66,31 @@ void TNode::PrintEmpty(ostream& os)
 	}
 	os << endl;
 }
-
+TNode* TNode::Find(TKey key)
+{
+	TNode* tmp = memory.pFirst;
+	while (tmp <= memory.pLast)
+	{
+		if (tmp->key == key) return tmp;
+		tmp++;
+	}
+	return nullptr;
+}
+void TNode::Clear()
+{
+	TNode* tmp = memory.pFirst;
+	int i = 1;
+	while (tmp < memory.pLast)
+	{
+		tmp->key = -1;
+		tmp->status = Status::empty;
+		tmp->pLeft = memory.pFirst + i;
+		tmp++;
+	}
+	tmp->status = Status::empty;
+	tmp->key = -1;
+	tmp->pLeft = nullptr;
+}
 void TNode::PrintNode(ostream& os)
 {
 	TNode* tmp = memory.pFirst;
