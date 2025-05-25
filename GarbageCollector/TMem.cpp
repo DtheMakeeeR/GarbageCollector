@@ -9,9 +9,11 @@ void TNode::InitMem(int size)
 	for (size_t i = 0; i < size-1; i++)
 	{
 		memory.pFirst[i].key = -1;
+		memory.pFirst[i].status = Status::empty;
 		memory.pFirst[i].pLeft = memory.pFirst + i + 1;
 	}
 	memory.pLast->key = -1;
+	memory.pLast->status = Status::empty;
 	memory.pLast->pLeft = nullptr;
 }
 
@@ -41,16 +43,65 @@ void TNode::ClearMem(TTree* t)
 	}
 }
 
-void TNode::PrintFree(ostream& os)
+void TNode::PrintGarbage(ostream& os)
 {
 	TNode* tmp = memory.pFirst;
 	os << endl;
 	while (tmp <= memory.pLast)
 	{
-		if (tmp->key>0 && tmp->status) os << tmp->key << " ";
+		if (tmp->status == Status::garbage) os << tmp->key << " ";
 		tmp++;
 	}
 	os << endl;
+}
+
+void TNode::PrintEmpty(ostream& os)
+{
+	TNode* tmp = memory.pFirst;
+	os << endl;
+	while (tmp <= memory.pLast)
+	{
+		if (tmp->status == Status::empty) os << tmp->key << " ";
+		tmp++;
+	}
+	os << endl;
+}
+
+void TNode::PrintNode(ostream& os)
+{
+	TNode* tmp = memory.pFirst;
+	os << endl;
+	while (tmp <= memory.pLast)
+	{
+		if (tmp->status == Status::node) os << tmp->key << " ";
+		tmp++;
+	}
+	os << endl;
+}
+
+string TNode::CreatePrint()
+{
+	TNode* tmp = memory.pFirst;
+	stringstream ss;
+	while (tmp <= memory.pLast)
+	{
+		string add;
+		switch (tmp->status)
+		{
+			case Status::node:
+				ss << "\033[34m " << tmp->key << " ";
+				break;
+			case Status::garbage:
+				ss << "\033[33m " << tmp->key << " ";
+				break;
+			case Status::empty:
+				ss << "\033[0m " << tmp->key << " ";
+				break;
+		}
+		tmp++;
+	}
+	ss << "\033[0m " << endl;
+	return ss.str();
 }
 
 void* TNode::operator new(size_t s)
@@ -67,7 +118,7 @@ void TNode::operator delete(void* p)
 	TNode* tmp = (TNode*)p;
 	tmp->pLeft = memory.pFree;
 	memory.pFree = tmp;
-	//tmp->status = Status::garbage;
+	//tmp->status = Status::empty;
 }
 
 void TTree::PrintRec(ostream& os, TNode* p)
@@ -115,6 +166,7 @@ void TTree::Insert(TKey key)
 {
 	if (Find(key)) throw - 1;
 	TNode* tmp = new TNode(key);
+	tmp->status = Status::node;
 	if (pCurr == nullptr) {
 		pRoot = tmp;
 	}

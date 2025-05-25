@@ -1,5 +1,6 @@
 #pragma once
 #include <stack>
+#include <sstream>
 #include <iostream>
 enum Status
 {
@@ -38,7 +39,12 @@ struct TNode
 	static TMem memory;
 	static void InitMem(int size = 100);
 	static void ClearMem(TTree* t);
-	static void PrintFree(ostream& os);
+	static void PrintGarbage(ostream& os);
+	static void PrintEmpty(ostream& os);
+	static void PrintNode(ostream& os);
+	static TNode Find(ostream& os);
+	static void Clear(ostream& os);
+	static string CreatePrint();
 public:
 	TNode(TKey k) : key(k), pLeft(nullptr), pRight(nullptr), status(Status::empty) {}
 	void* operator new(size_t s);

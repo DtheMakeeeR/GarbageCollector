@@ -2,11 +2,18 @@
 //
 
 #include <iostream>
+#include "Model.h"
 #include "TMem.h"
 int main()
 {
-    TNode::InitMem(15);
+	cout << "Input memory size" << endl;
+	int size;
+	cin >> size;
+	Model m(size);
+	m.Run();
+    /*TNode::InitMem(15);
     TTree tree;
+	cout << "\033[31m red \033[33m yellow  \033[34m blue \033[0m white" << endl;
 	for (size_t i = 0; i < 10; i++)
 	{
 		tree.Insert(i);
@@ -15,7 +22,7 @@ int main()
 	tree.Delete(5);
 	tree.PrintTree(cout);
 	TNode::ClearMem(&tree);
-	TNode::PrintFree(cout);
+	TNode::PrintFree(cout);*/
 }
 
 
