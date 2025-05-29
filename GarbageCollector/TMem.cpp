@@ -1,12 +1,13 @@
 #include "TMem.h"
 TMem TNode::memory;
-void TNode::InitMem(int size)
+void TNode::InitMem(int sz)
 {
-	memory.pFirst = (TNode*) new char[sizeof(TNode) * size];
+	memory.size = sz;
+	memory.pFirst = (TNode*) new char[sizeof(TNode) * sz];
 	memory.pFree = memory.pFirst;
-	memory.pLast = memory.pFirst + size - 1;
+	memory.pLast = memory.pFirst + sz - 1;
 	TNode* curr = memory.pFirst;
-	for (size_t i = 0; i < size-1; i++)
+	for (size_t i = 0; i < sz-1; i++)
 	{
 		memory.pFirst[i].key = -1;
 		memory.pFirst[i].status = Status::empty;
@@ -244,5 +245,5 @@ void TTree::GoNext()
 			pCurr = pCurr->pLeft;
 		}
 	}
-	else if (!st.empty()) st.top();
+	else if (!st.empty()) pCurr = st.top();
 }

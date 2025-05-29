@@ -31,6 +31,7 @@ public:
 struct TMem
 {
 	TNode* pFirst, * pLast, * pFree;
+	int size;
 };
 struct TNode
 {
@@ -38,7 +39,7 @@ struct TNode
 	TNode* pLeft, * pRight;
 	Status status;
 	static TMem memory;
-	static void InitMem(int size = 100);
+	static void InitMem(int sz = 100);
 	static void ClearMem(TTree* t);
 	static void PrintGarbage(ostream& os);
 	static void PrintEmpty(ostream& os);

@@ -71,6 +71,42 @@ void Model::Run()
 		{
 			TNode::ClearMem(&tree);
 		}
+		else if (command == "init")
+		{
+			for (size_t i = 21; i < 50; i+=5)
+			{
+				try
+				{
+					tree.Insert(i);
+				}
+				catch (...)
+				{
+					Error("insert error");
+				}
+			}
+			for (int i = 17; i > 0; i-=5)
+			{
+				try
+				{
+					tree.Insert(i);
+				}
+				catch (...)
+				{
+					Error("insert error");
+				}
+			}
+			for (size_t i = 4; i < 60; i += 5)
+			{
+				try
+				{
+					tree.Insert(i);
+				}
+				catch (...)
+				{
+					Error("insert error");
+				}
+			}
+		}
 		else
 		{
 			Error("Unknown command");
