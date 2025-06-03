@@ -6,9 +6,13 @@
 #include "TMem.h"
 int main()
 {
-	cout << "Input memory size" << endl;
-	int size;
-	cin >> size;
+	cout << "Input memory size(>=40)" << endl;
+	string input;
+	cin >> input;
+	int size = 0;
+	try { size = stoi(input); }
+	catch (...) {}
+	if (size < 40) size = 40;
 	Model m(size);
 	m.Run();
     /*TNode::InitMem(15);
