@@ -169,6 +169,7 @@ void TTree::PrintTree(ostream& os)
 
 bool TTree::Find(TKey key)
 {
+	pPrev = nullptr;
 	pCurr = pRoot;
 	while (pCurr != nullptr) {
 		if (key > pCurr->key) {
@@ -207,7 +208,11 @@ void TTree::Delete(TKey key)
 {
 	if (!Find(key)) throw - 1;
 	pCurr->status = Status::empty;
-	if (pPrev == nullptr) delete pCurr;
+	if (pPrev == nullptr)
+	{
+		delete pCurr;
+		pRoot = nullptr;
+	}
 	else if (pPrev->pLeft == pCurr)
 	{
 		pPrev->pLeft = nullptr;
@@ -222,6 +227,7 @@ void TTree::Delete(TKey key)
 
 void TTree::Reset()
 {
+	if (pRoot == nullptr) return;
 	while (!st.empty()) st.pop();
 	pCurr = pRoot;
 	while (pCurr->pLeft != nullptr)
